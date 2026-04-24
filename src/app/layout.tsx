@@ -1,7 +1,11 @@
 import type { Metadata } from "next";
-import { Commissioner, Geist, Geist_Mono, Instrument_Sans, Instrument_Serif } from "next/font/google";
+import { Commissioner, Geist, Geist_Mono, Instrument_Sans, Instrument_Serif, Inter } from "next/font/google";
 import "./globals.css";
 import { ThemeProvider } from "@/components/theme-providers/theme-provider";
+import { Toaster } from "sonner";
+import { cn } from "@/lib/utils";
+
+const inter = Inter({subsets:['latin'],variable:'--font-sans'});
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -45,7 +49,7 @@ export default function RootLayout({
   return (
     <html
       lang="en"
-      className={`${geistSans.variable} ${geistMono.variable} ${instrumentSans.variable} ${instrumentSerif.variable} ${commissioner.variable} h-full antialiased`}
+      className={cn("h-full", "antialiased", geistSans.variable, geistMono.variable, instrumentSans.variable, instrumentSerif.variable, commissioner.variable, "font-sans", inter.variable)}
     >
       <body className="min-h-full flex flex-col overflow-x-hidden">
         <ThemeProvider
