@@ -59,7 +59,7 @@ const UserProfileButton = () => {
         )}
       </div>
       <div className="">
-        <p className="leading-none text-sm font-semibold tracking-wide">{userName}</p>
+        <p className="leading-none text-sm font-semibold">{userName}</p>
         <p className="text-xs text-zinc-400 dark:text-zinc-300 leading-none tracking-tighter">{userEmail}</p>
       </div>
       <div className="">
