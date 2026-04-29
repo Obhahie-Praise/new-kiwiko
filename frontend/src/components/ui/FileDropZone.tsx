@@ -24,7 +24,7 @@ const FileDropZone = ({ className, setImageUrl, fileType, endpoint }: FileDropZo
     onClientUploadComplete: (res) => {
       if (res && res[0]) {
         // Handle both .url (standard) and .ufsUrl (legacy/internal)
-        const url = (res[0] as any).ufsUrl || res[0].url;
+        const url = res[0].url;
         setImageUrl(url);
         setPreview(url);
       }

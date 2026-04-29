@@ -5,7 +5,14 @@ import React from "react";
 
 const ProjectsTable = async () => {
   const getprojects = await getMyProjects();
-  console.log(getprojects);
+  
+  if (!Array.isArray(getprojects)) {
+    return (
+      <div className="max-w-4xl mx-auto mt-24 text-center">
+        <p className="text-red-500">Failed to load projects. Please ensure you are logged in.</p>
+      </div>
+    );
+  }
 
   return (
     <div className="max-w-4xl mx-auto mt-24">
@@ -40,10 +47,10 @@ const ProjectsTable = async () => {
                     <div className="col-span-1">Portfolio</div>
                     <div className="col-span-1">Actions</div>
                     <div className="col-span-4">{project.name}</div>
-                    <div className="col-span-2">{project.status}</div>
-                    <div className="col-span-2">{project.position}</div>
-                    <div className="col-span-2">{project.owner}</div>
-                    <div className="col-span-1">{project.portfolio}</div>
+                    <div className="col-span-2">{project.stage || "N/A"}</div>
+                    <div className="col-span-2">{project.niche || "N/A"}</div>
+                    <div className="col-span-2 truncate">{project.ownerId}</div>
+                    <div className="col-span-1">{project.slug}</div>
                     <div className="col-span-1">
                       <Link href={"/projects/new"} className="text-sm py-1.5 flex items-center gap-1 px-3 font-medium bg-black text-white dark:bg-white rounded-md dark:text-black hover:opacity-80 transition ">
                         <Plus size={16} />

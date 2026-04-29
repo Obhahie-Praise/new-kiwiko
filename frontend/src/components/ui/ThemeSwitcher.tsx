@@ -10,7 +10,7 @@ export function ThemeSwitcher() {
 
   // Avoid hydration mismatch
   React.useEffect(() => {
-    setMounted(true)
+    requestAnimationFrame(() => setMounted(true))
   }, [])
 
   if (!mounted) {

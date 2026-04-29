@@ -13,7 +13,7 @@ const Navbar = () => {
   const [scrolled, setScrolled] = React.useState(false);
 
   React.useEffect(() => {
-    setMounted(true);
+    requestAnimationFrame(() => setMounted(true));
     const handleScroll = () => {
       setScrolled(window.scrollY > 50);
     };

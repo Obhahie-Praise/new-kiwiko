@@ -23,8 +23,8 @@ const ImageThemeSwitcher = ({
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
-    setMounted(true);
-  });
+    requestAnimationFrame(() => setMounted(true));
+  }, []);
 
  const imageSrc =  mounted && resolvedTheme === "dark"
       ? srcdark
