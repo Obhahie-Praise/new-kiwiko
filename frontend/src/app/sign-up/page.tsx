@@ -1,14 +1,33 @@
 "use client";
 
-import LeftSlides from "@/components/signuppage/LeftSlides";
 import SignUpForm from "@/components/signuppage/SignUpForm";
 import Link from "next/link";
 import { toast } from "sonner";
 import { useState } from "react";
+import { signIn } from "@/lib/auth-client";
+import LeftSlides from "@/components/ui/LeftSlides";
 
 const SignUpPage = () => {
   const [isGoogleLoading, setIsGoogleLoading] = useState(false);
   const [isGithubLoading, setIsGithubLoading] = useState(false);
+
+  const socialSignIn = async (provider: "google" | "github") => {
+    try {
+      if (provider === "google") {
+        setIsGoogleLoading(true);
+      } else {
+        setIsGithubLoading(true);
+      }
+      await signIn.social({
+        provider, callbackURL: "/survey"
+      })
+    } catch {
+      toast.error("Something went wrong!")
+    } finally {
+      setIsGoogleLoading(false);
+      setIsGithubLoading(false);
+    }
+  };
 
   return (
     <div className="h-screen">
@@ -23,12 +42,14 @@ const SignUpPage = () => {
             
             <div className="space-y-3">
               <button 
+                onClick={() => socialSignIn("google")}
                 disabled={isGoogleLoading || isGithubLoading}
                 className="cursor-pointer bg-black dark:bg-white rounded-lg text-sm font-medium hover:opacity-80 transition-opacity py-3 w-full text-white dark:text-black disabled:opacity-50"
               >
                 <p className="">{isGoogleLoading ? "Connecting..." : "Continue with Google"}</p>
               </button>
               <button 
+                onClick={() => socialSignIn("github")}
                 disabled={isGoogleLoading || isGithubLoading}
                 className="cursor-pointer bg-zinc-200 dark:bg-zinc-900 rounded-lg text-sm font-medium hover:opacity-80 transition-opacity py-3 w-full text- disabled:opacity-50"
               >

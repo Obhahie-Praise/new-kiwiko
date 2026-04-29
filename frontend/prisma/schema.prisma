@@ -22,6 +22,8 @@ model User {
   updatedAt     DateTime  @updatedAt
   sessions      Session[]
   accounts      Account[]
+  projects      Project[]
+  updates       ProjectUpdate[]
 
   @@unique([email])
   @@map("user")
@@ -73,4 +75,131 @@ model Verification {
 
   @@index([identifier])
   @@map("verification")
+}
+
+model Survey {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  role  String
+  consent   Boolean
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("survey")
+}
+
+model Waitlist {
+  id        String   @id @default(uuid())
+  email     String   @unique
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@map("waitlist")
+}
+
+model Project {
+  id   String @id @default(cuid())
+  name String
+  slug String @unique // 🔥 REQUIRED for /[projectName]
+
+  // 👤 Ownership
+  ownerId String
+  owner   User   @relation(fields: [ownerId], references: [id])
+
+  // 🧠 Core Info
+  description String?
+  tagline     String?
+  stage       String?
+  niche       String?
+
+  problem  String?
+  solution String?
+
+  // 🎨 Branding
+  logoUrl   String?
+  bannerUrl String?
+
+  // 📎 Assets
+  pitchDeckUrl String?
+  links        Json? // e.g. { website, twitter, github }
+
+  // 💰 Business
+  currentRevenue     String?
+  postMoneyValuation String?
+
+  // 📊 Internal tracking
+  dataChangeCount  Int       @default(0)
+  lastDataChangeAt DateTime?
+
+  // 🔐 Visibility
+  isPublic Boolean @default(true)
+
+  youtubeVideos YouTubeVideo[] // Still optional, no need for mandatory link
+  updates      ProjectUpdate[]
+  githubCommits  GitHubCommit[]
+
+  // ⏱️ Timestamps
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  @@index([ownerId])
+  @@map("project")
+}
+
+model GitHubCommit {
+  id         String @id @default(cuid())
+  projectId  String
+  project    Project @relation(fields: [projectId], references: [id])
+
+repoName   String // The GitHub repository name (e.g., "praise/kiwiko")
+  sha        String // Unique commit SHA
+  message    String // Commit message
+  authorName String?
+  authorEmail String?
+  commitUrl  String?
+  committedAt DateTime
+
+  createdAt DateTime @default(now())
+
+  @@map("github_commit")
+}
+
+model YouTubeVideo {
+  id        String @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+
+  videoId   String // Unique YouTube video ID
+  title     String
+  description String?
+  thumbnailUrl String?
+  publishedAt DateTime
+
+  // Optional: Track if it’s shared or curated
+  isPublic Boolean @default(false)
+  sharedAt DateTime?
+
+  createdAt DateTime @default(now())
+
+  @@map("youtube_video")
+}
+
+model ProjectUpdate {
+  id        String @id @default(cuid())
+  projectId String
+  project   Project @relation(fields: [projectId], references: [id])
+
+  authorId  String? // Optional, link to the user who wrote it
+  author    User?   @relation(fields: [authorId], references: [id])
+
+  title     String // Title of the update
+  body      String // Content of the update
+
+  createdAt DateTime @default(now())
+
+  // Optional: allow for updates to be edited later
+  updatedAt DateTime @updatedAt
+
+  @@map("project_update")
 }

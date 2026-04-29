@@ -54,7 +54,13 @@ export const ModelName = {
   User: 'User',
   Session: 'Session',
   Account: 'Account',
-  Verification: 'Verification'
+  Verification: 'Verification',
+  Survey: 'Survey',
+  Waitlist: 'Waitlist',
+  Project: 'Project',
+  GitHubCommit: 'GitHubCommit',
+  YouTubeVideo: 'YouTubeVideo',
+  ProjectUpdate: 'ProjectUpdate'
 } as const
 
 export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -131,12 +137,115 @@ export const VerificationScalarFieldEnum = {
 export type VerificationScalarFieldEnum = (typeof VerificationScalarFieldEnum)[keyof typeof VerificationScalarFieldEnum]
 
 
+export const SurveyScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  role: 'role',
+  consent: 'consent',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type SurveyScalarFieldEnum = (typeof SurveyScalarFieldEnum)[keyof typeof SurveyScalarFieldEnum]
+
+
+export const WaitlistScalarFieldEnum = {
+  id: 'id',
+  email: 'email',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type WaitlistScalarFieldEnum = (typeof WaitlistScalarFieldEnum)[keyof typeof WaitlistScalarFieldEnum]
+
+
+export const ProjectScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  slug: 'slug',
+  ownerId: 'ownerId',
+  description: 'description',
+  tagline: 'tagline',
+  stage: 'stage',
+  niche: 'niche',
+  problem: 'problem',
+  solution: 'solution',
+  logoUrl: 'logoUrl',
+  bannerUrl: 'bannerUrl',
+  pitchDeckUrl: 'pitchDeckUrl',
+  links: 'links',
+  currentRevenue: 'currentRevenue',
+  postMoneyValuation: 'postMoneyValuation',
+  dataChangeCount: 'dataChangeCount',
+  lastDataChangeAt: 'lastDataChangeAt',
+  isPublic: 'isPublic',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectScalarFieldEnum = (typeof ProjectScalarFieldEnum)[keyof typeof ProjectScalarFieldEnum]
+
+
+export const GitHubCommitScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  repoName: 'repoName',
+  sha: 'sha',
+  message: 'message',
+  authorName: 'authorName',
+  authorEmail: 'authorEmail',
+  commitUrl: 'commitUrl',
+  committedAt: 'committedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type GitHubCommitScalarFieldEnum = (typeof GitHubCommitScalarFieldEnum)[keyof typeof GitHubCommitScalarFieldEnum]
+
+
+export const YouTubeVideoScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  videoId: 'videoId',
+  title: 'title',
+  description: 'description',
+  thumbnailUrl: 'thumbnailUrl',
+  publishedAt: 'publishedAt',
+  isPublic: 'isPublic',
+  sharedAt: 'sharedAt',
+  createdAt: 'createdAt'
+} as const
+
+export type YouTubeVideoScalarFieldEnum = (typeof YouTubeVideoScalarFieldEnum)[keyof typeof YouTubeVideoScalarFieldEnum]
+
+
+export const ProjectUpdateScalarFieldEnum = {
+  id: 'id',
+  projectId: 'projectId',
+  authorId: 'authorId',
+  title: 'title',
+  body: 'body',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type ProjectUpdateScalarFieldEnum = (typeof ProjectUpdateScalarFieldEnum)[keyof typeof ProjectUpdateScalarFieldEnum]
+
+
 export const SortOrder = {
   asc: 'asc',
   desc: 'desc'
 } as const
 
 export type SortOrder = (typeof SortOrder)[keyof typeof SortOrder]
+
+
+export const NullableJsonNullValueInput = {
+  DbNull: DbNull,
+  JsonNull: JsonNull
+} as const
+
+export type NullableJsonNullValueInput = (typeof NullableJsonNullValueInput)[keyof typeof NullableJsonNullValueInput]
 
 
 export const QueryMode = {
@@ -153,4 +262,13 @@ export const NullsOrder = {
 } as const
 
 export type NullsOrder = (typeof NullsOrder)[keyof typeof NullsOrder]
+
+
+export const JsonNullValueFilter = {
+  DbNull: DbNull,
+  JsonNull: JsonNull,
+  AnyNull: AnyNull
+} as const
+
+export type JsonNullValueFilter = (typeof JsonNullValueFilter)[keyof typeof JsonNullValueFilter]
 

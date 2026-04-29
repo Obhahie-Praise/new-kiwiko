@@ -61,3 +61,33 @@ export type Account = Prisma.AccountModel
  * 
  */
 export type Verification = Prisma.VerificationModel
+/**
+ * Model Survey
+ * 
+ */
+export type Survey = Prisma.SurveyModel
+/**
+ * Model Waitlist
+ * 
+ */
+export type Waitlist = Prisma.WaitlistModel
+/**
+ * Model Project
+ * 
+ */
+export type Project = Prisma.ProjectModel
+/**
+ * Model GitHubCommit
+ * 
+ */
+export type GitHubCommit = Prisma.GitHubCommitModel
+/**
+ * Model YouTubeVideo
+ * 
+ */
+export type YouTubeVideo = Prisma.YouTubeVideoModel
+/**
+ * Model ProjectUpdate
+ * 
+ */
+export type ProjectUpdate = Prisma.ProjectUpdateModel

@@ -1,12 +1,12 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import ImageThemeSwitcher from "../ui/ImageThemeSwitcher";
+import ImageThemeSwitcher from "./ImageThemeSwitcher";
 import Link from "next/link";
-import { title } from "process";
+import Image from "next/image";
 
 const LeftSlides = () => {
   const [currentPage, setCurrentPage] = useState(1);
-  const timedelay = 5000;
+  const timedelay = 3000;
 
   const slideData = [
     {
@@ -37,21 +37,22 @@ const LeftSlides = () => {
   const currentSlide = slideData[currentPage - 1];
 
   return (
-    <div className="relative border-r border-zinc-300 dark:border-zinc-800">
+    <div className="relative border-r border-zinc-300 dark:border-zinc-800 bg-black overflow-hidden">
       <div className="">
         <Link
           href={"/"}
-          className="absolute top-4 left-4 flex items-center space-x-2"
+          className="absolute top-4 left-6 flex items-center space-x-2"
         >
           <ImageThemeSwitcher
-            srcdark="/logo-dark-mode.svg"
-            srclight="/logo-lightmode.svg"
+            srcdark="/logo-lightmode.svg"
+            srclight="/logo-dark-mode.svg"
             width={24}
             hieght={24}
             alt="logo"
           />
-          <p className="serif text-lg">Kiwiko</p>
+          <p className="serif text-lg text-white">Kiwiko</p>
         </Link>
+        <Image src={`/Slide-${currentPage}.svg`} height={100} width={100} alt={`slide-${currentPage}`} className="h-screen w-full opacity-20 scale-200" />
         <div className="absolute px-12 py-6 left-0 bottom-0">
           <div className="">
             <div className="flex items-center space-x-2">
@@ -67,8 +68,8 @@ const LeftSlides = () => {
           </div>
           {/* Slide */}
           <div className="transition-opacity duration-500">
-            <h4 className="text-6xl py-2">{currentSlide.title}</h4>
-            <p className="text-zinc-700 dark:text-zinc-300 max-w-lg text-xl">
+            <h4 className="text-6xl py-2 text-white">{currentSlide.title}</h4>
+            <p className="text-zinc-300 max-w-lg text-xl">
               {currentSlide.summary}
             </p>
           </div>

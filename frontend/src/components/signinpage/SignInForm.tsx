@@ -1,15 +1,14 @@
 "use client";
-import { signUp, useSession } from "@/lib/auth-client";
+import { signIn, signUp, useSession } from "@/lib/auth-client";
 import { surveyCount } from "@/lib/server/server.action";
 import { Eye, EyeClosed } from "lucide-react";
 import { useRouter } from "next/navigation";
 import React, { useState } from "react";
 import { toast } from "sonner";
 
-const SignUpForm = () => {
+const SignInForm = () => {
   const [showPassword, setShowPassword] = useState(false);
   const [isFormLoading, setIsFormLoading] = useState(false);
-  const [name, setName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
@@ -28,22 +27,21 @@ const SignUpForm = () => {
       return;
     }
 
-    const { data, error } = await signUp.email(
+    const { data, error } = await signIn.email(
       {
-        name,
         email,
         password,
         callbackURL: url,
       },
       {
         onSuccess: () => {
-          toast.success("Account created successfully!");
+          toast.success("Successfully signed in!");
           router.push(url);
           setIsFormLoading(false);
         },
         onError: (error) => {
-          console.log(error);
           toast.error("Something went wrong!");
+          console.log(error.response);
           setIsFormLoading(false);
         },
       },
@@ -51,22 +49,6 @@ const SignUpForm = () => {
   };
   return (
     <form className="space-y-4" onSubmit={handleSignUp}>
-      <div className="space-y-2">
-        <label htmlFor="name" className="text-sm font-medium">
-          Full Name
-        </label>
-        <input
-          required
-          id="name"
-          name="name"
-          onChange={(e) => {
-            setName(e.target.value);
-          }}
-          type="text"
-          placeholder="John Doe"
-          className="w-full block bg-zinc-200 dark:bg-zinc-900 py-2 px-4 rounded-lg focus:outline-none focus:border-none"
-        />
-      </div>
       <div className="space-y-2">
         <label htmlFor="email" className="text-sm font-medium">
           Email
@@ -118,13 +100,14 @@ const SignUpForm = () => {
         </div>
       </div>
       <button
+        disabled={isFormLoading}
         type="submit"
-        className={`cursor-pointer py-3 w-full text-center text-sm font-medium rounded-lg bg-linear-to-b from-black to-zinc-900 dark:from-white dark:to-zinc-500 text-white dark:text-black`}
+        className={`py-3 w-full text-center text-sm font-medium rounded-lg bg-linear-to-b from-black to-zinc-900 dark:from-white dark:to-zinc-500 text-white dark:text-black ${isFormLoading ? "opacity-70 cursor-not-allowed" : "cursor-pointer xopacity-100"} `}
       >
-        {isFormLoading ? "Creating..." : "Create Account"}
+        {isFormLoading ? "Signing in..." : "Sign in"}
       </button>
     </form>
   );
 };
 
-export default SignUpForm;
+export default SignInForm;

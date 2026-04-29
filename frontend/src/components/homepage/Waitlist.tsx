@@ -1,4 +1,7 @@
-import React from "react";
+"use client"
+import { addWaitlist } from "@/lib/server/server.action";
+import React, { useState } from "react";
+import { toast } from "sonner";
 
 const Waitlist = () => {
   const array = [
@@ -18,6 +21,27 @@ const Waitlist = () => {
         "After launch, enjoy a full year of premium features at no cost—giving you a head start on growing your startup.",
     },
   ];
+
+  const [name, setName] = useState('');
+  const [email, setEmail] = useState('');
+  const [loading, setLoading] = useState(false);
+
+  const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    setLoading(true);
+    const response = await addWaitlist({name, email});
+    if (response?.success) {
+      setName('');
+      setEmail('');
+      toast.success("Waitlist added successfully!");
+    }
+    if (!response?.success) {
+      setLoading(false);
+      toast.error("Failed to add to waitlist");
+    }
+    setLoading(false);
+  }
+  
   return (
     <section id="waitlist" className="lg:min-h-screen py-40 px-15">
       <div className="">
@@ -60,7 +84,7 @@ const Waitlist = () => {
           </div>
           <div className="">
             <div className="max-w-lg mx-auto">
-              <form action="" className="space-y-4 mt-24">
+              <form onSubmit={handleSubmit} className="space-y-4 mt-24">
                 <div className="flex flex-col gap-1">
                   <label htmlFor="" className="text-sm">Full name</label>
                   <input className="bg-zinc-200 dark:bg-zinc-900 py-3 focus:border-zinc-300 dark:focus:border-zinc-800 px-6 rounded-lg" type="text" placeholder="John Doe" required />
@@ -69,7 +93,7 @@ const Waitlist = () => {
                   <label htmlFor="" className="text-sm">Email</label>
                   <input className="bg-zinc-200 dark:bg-zinc-900 py-3 focus:border-zinc-300 dark:focus:border-zinc-800 px-6 rounded-lg" type="email" placeholder="johndoe@gmail.com" required />
                 </div>
-                <button type="submit" className="mt-4 cursor-pointer hover:opacity-80 transition-opacity duration-300 space-x-1 w-full font-semibold text-lg text-center py-3 bg-linear-to-b from-black to-zinc-700 dark:from-white dark:to-zinc-400 text-white dark:text-black rounded-lg">Join</button>
+                <button disabled={loading} type="submit" className={`mt-4 transition-opacity duration-300 space-x-1 w-full font-semibold text-lg text-center py-3 bg-linear-to-b from-black to-zinc-700 dark:from-white dark:to-zinc-400 text-white dark:text-black rounded-lg ${loading ? "cursor-not-allowed opacity-50" : " cursor-pointer hover:opacity-80 "}`}>{loading ? "Adding..." : "Join Waitlist"}</button>
               </form>
             </div>
           </div>
