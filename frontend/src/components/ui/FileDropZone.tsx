@@ -53,14 +53,43 @@ const FileDropZone = ({ className, setImageUrl, fileType, endpoint }: FileDropZo
   };
 
   const allowedExtensions = fileType
-    .split(",")
-    .map((t) => t.trim().toLowerCase());
+    ? fileType
+        .split(",")
+        .map((t) => t.trim().replace(/^\./, "").toLowerCase())
+        .filter(Boolean)
+    : [];
   const acceptString = allowedExtensions.map((ext) => `.${ext}`).join(",");
+
+  const getMaxSize = (endpoint: keyof OurFileRouter) => {
+    switch (endpoint) {
+      case "projectLogo":
+        return "4 MB";
+      case "projectBanner":
+        return "8 MB";
+      case "projectPitchdeck":
+        return "16 MB";
+      default:
+        return "5 MB";
+    }
+  };
+
+  const getEndpointLabel = (endpoint: keyof OurFileRouter) => {
+    switch (endpoint) {
+      case "projectLogo":
+        return "Project Logo";
+      case "projectBanner":
+        return "Project Banner";
+      case "projectPitchdeck":
+        return "Project Pitchdeck";
+      default:
+        return "File";
+    }
+  };
 
   return (
     <div
       className={cn(
-        "relative group flex flex-col items-center justify-center border border-zinc-800 rounded-lg bg-black overflow-hidden transition-all duration-300 min-h-[200px]",
+        "relative group flex flex-col items-center justify-center border border-zinc-800 rounded-lg bg-black overflow-hidden transition-all duration-300 min-h-[150px] p-6",
         className
       )}
       onDragOver={(e) => e.preventDefault()}
@@ -83,40 +112,22 @@ const FileDropZone = ({ className, setImageUrl, fileType, endpoint }: FileDropZo
       {/* Foreground Content */}
       <motion.div
         initial={false}
-        animate={{ 
+        animate={{
           opacity: preview && !isHovered ? 0 : 1,
-          scale: preview && !isHovered ? 0.95 : 1
+          scale: preview && !isHovered ? 0.95 : 1,
         }}
         transition={{ duration: 0.4, ease: "easeInOut" }}
-        className="relative z-10 flex flex-col items-center gap-6 text-center p-8 w-full"
+        className="relative z-10 flex flex-col items-center gap-4 text-center w-full"
       >
-        {/* Icon Container */}
-        <div className="relative flex items-center justify-center">
-          {/* Dashed Animated Circle */}
-          <div className="absolute inset-0 -m-4 border border-zinc-700/50 rounded-full border-dashed animate-[spin_20s_linear_infinite]" />
-          
-          {/* Main Icon Box */}
-          <div className="relative h-14 w-16 rounded-xl border-2 border-blue-600/50 flex items-center justify-center bg-blue-600/5 shadow-[0_0_20px_rgba(37,99,235,0.1)]">
-            <div className="absolute top-0 left-1/2 -translate-x-1/2 -translate-y-1/2 w-8 h-1.5 bg-blue-600/50 rounded-full" />
-            <svg 
-              className="w-6 h-6 text-blue-500" 
-              fill="none" 
-              viewBox="0 0 24 24" 
-              stroke="currentColor" 
-              strokeWidth={2.5}
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M5 10l7-7m0 0l7 7m-7-7v18" />
-            </svg>
-          </div>
-        </div>
-
-        <div className="space-y-4">
-          <h3 className="text-white font-medium leading-0">Drag and drop or</h3>
-          <p className="text-zinc-500 text-xs font-medium tracking-wider">
+        <div className="space-y-2">
+          <h3 className="text-white font-medium leading-none">
+            Drag and drop {getEndpointLabel(endpoint)} or
+          </h3>
+          <p className="text-zinc-500 text-[10px] font-medium tracking-wider">
             <span className="uppercase tracking-wide font-semibold">
-               {allowedExtensions.join(", ")} {" "}
+              {allowedExtensions.join(", ")}{" "}
             </span>
-            up to 5 MB
+            up to {getMaxSize(endpoint)}
           </p>
         </div>
 
@@ -133,10 +144,6 @@ const FileDropZone = ({ className, setImageUrl, fileType, endpoint }: FileDropZo
           )}
           {isUploading ? "Uploading..." : "Upload File"}
         </button>
-
-        <p className="text-zinc-600 text-sm font-medium serif">
-          or drag and drop your file here
-        </p>
 
         <input
           id="file-input"

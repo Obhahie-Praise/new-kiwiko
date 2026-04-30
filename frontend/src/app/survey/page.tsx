@@ -40,8 +40,11 @@ const SurveyPage = () => {
     }
     const result = await submitSurvey({ userId, role, consent });
     if (result?.success) {
+      if (role == "investor") {
+        router.push("/")
+      }
       // Navigate to dashboard or home
-      window.location.href = "/projects";
+      router.push("/projects");
     }
     if (!result?.success) {
       setIsLoading(false);
@@ -113,7 +116,7 @@ const SurveyPage = () => {
                 className="text-xs text-zinc-700 dark:text-zinc-300"
               >
                 Accept our
-                <Link href={"/"} className=" hover:underline">
+                <Link href={"/"} className=" hover:underline text-black dark:text-white">
                   {" "}
                   term of use
                 </Link>

@@ -1,11 +1,14 @@
 import React from "react";
 import BasicInfo from "./sections/BasicInfo";
+import Metadata from "./sections/Metadata";
+import Team from "./sections/Team";
+import ReleveantLinks from "./sections/ReleveantLinks";
 
 const CreateProjectForm = async () => {
   return (
     <div className="max-w-3xl mx-auto pt-10">
-      <div className="">
-        <h4 className="flex items-center justify-between py-4">
+      <div className="space-y-8">
+        <h4 className="flex items-center justify-between">
           <p className="text-2xl font-medium">Create project</p>
           <div className="flex items-center space-x-2">
             {" "}
@@ -16,6 +19,10 @@ const CreateProjectForm = async () => {
           </div>
         </h4>
         <BasicInfo />
+        <Metadata />
+        <Team />
+        <ReleveantLinks />
+        
       </div>
     </div>
   );
